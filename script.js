@@ -24,7 +24,8 @@ document.getElementById("stop").addEventListener("click", stopGame);
 
 function startGame() {
   if(intervalId === null) {
-    updateSpeed(speed);
+    const iterationsPerSecond = parseInt(document.getElementById("speedRange").value);
+    updateSpeed(iterationsPerSecond);
   }
 }
 
@@ -35,9 +36,17 @@ function stopGame() {
   }
 }
 
-function updateSpeed(newSpeed) {
-  clearInterval(intervalId);
-  intervalId = setInterval(nextGeneration, speed);
+function updateSpeed(iterationsPerSecond) {
+  if (iterationsPerSecond > 0) {
+    // Calculate the time between iterations
+    const intervalTime = (1000 / iterationsPerSecond) * 100;
+    
+    clearInterval(intervalId);
+    intervalId = setInterval(nextGeneration, intervalTime);
+  } else {
+    clearInterval(intervalId);
+    intervalId = null;
+  }
 }
 
 
@@ -49,8 +58,8 @@ emptyBtn.addEventListener("click", emptyBoard);
 addRandomBtn.addEventListener("click", addRandom);
 
 document.getElementById("speedRange").addEventListener("input", function() {
-  speed = parseInt(this.value);
-  updateSpeed(speed);
+  const iterationsPerSecond = parseInt(this.value);
+  updateSpeed(iterationsPerSecond);
 });
 
 function emptyBoard() {
