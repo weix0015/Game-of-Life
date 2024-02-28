@@ -12,6 +12,18 @@ function start() {
   console.log("JS running.");
 }
 
+function countNeighbours(row, col) {
+  let count = 0;
+  for(let y = -1; y <= 1; y++) {
+    for(let x = -1; x <=1; x++) {
+      //avoid counting the cell itself
+      if(x != 0 && y!= 0) {
+        count += readFromCell(row + y, col + x);
+      }
+    }
+  }
+}
+
 // function selectCell(row, col) {
 //   writeToCell(row, col, 1);
 //   displayBoard();
@@ -60,6 +72,9 @@ function start() {
 
 
 
+function readFromCell(row, col) {
+  return model[row][col];
+}
 
 
 // const model = [
@@ -70,7 +85,4 @@ function start() {
 
 // function writeToCell(row, col, value) {
 //   model[row][col] = value;
-// }
-// function readFromCell(row, col) {
-//   return model[row][col];
 // }
