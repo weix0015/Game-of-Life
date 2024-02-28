@@ -5,14 +5,41 @@ window.addEventListener("load", start);
 const GRID_WIDTH = 40;
 const GRID_HEIGHT = 25;
 
-
-
+const deadCells= document.querySelectorAll(".cell");
+deadCells.forEach(cell => {
+  cell.dataset.alive = Math.round(Math.random());
+});
+// ************* CONTROLLER *************
 
 function start() {
   console.log("JS running.");
   createBoard();
   // createModel();
 }
+
+function fillBoard() {
+  for (let row = 0; row < GRID_HEIGHT; row++) {
+    for (let col = 0; col < GRID_WIDTH; col++) {
+      if(Math.random() < 0.15) {
+        writeToCell(row, col, 1); 
+      } else {
+        writeToCell(row, col, 0);
+      }
+    }
+  }
+  
+}
+
+function changeCell(){
+  const cell = document.querySelector(".cell");
+  
+
+}
+
+function nextGeneration() {
+
+}
+
 
 function countNeighbours(row, col) {
   let count = 0;
@@ -26,10 +53,7 @@ function countNeighbours(row, col) {
   }
 }
 
-// function selectCell(row, col) {
-//   writeToCell(row, col, 1);
-//   displayBoard();
-// }
+
 
 // ************* VIEW *************
 
@@ -48,6 +72,30 @@ function createBoard() {
     }
   }
 }
+
+// ************* MODEL *************
+
+function writeToCell(row, col, value) {
+  model[row][col] = value;
+}
+
+function readFromCell(row, col) {
+  return model[row][col];
+}
+
+// function selectCell(row, col) {
+//   writeToCell(row, col, 1);
+//   displayBoard();
+// }
+
+// const model = [
+//   [0, 0, 0],
+//   [0, 0, 0],
+//   [0, 0, 0],
+// ];
+
+
+
 
 // function createModel() {
 //   for (let row = 0; row < GRID_HEIGHT; row++) {
@@ -95,23 +143,4 @@ function createBoard() {
 //       }
 //     }
 //   }
-// }
-
-// ************* MODEL *************
-
-
-
-function readFromCell(row, col) {
-  return model[row][col];
-}
-
-
-// const model = [
-//   [0, 0, 0],
-//   [0, 0, 0],
-//   [0, 0, 0],
-// ];
-
-// function writeToCell(row, col, value) {
-//   model[row][col] = value;
 // }
