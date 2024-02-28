@@ -1,19 +1,14 @@
-# Game-of-Life
+## Link to Deployment
 
-Conway’s Game of Life in javascript assignment
-
-
-## Link to deployment
-### https://weix0015.github.io/Game-of-Life/
-
+[Game of Life](https://weix0015.github.io/Game-of-Life/)
 
 ### Features
+
 #### Buttons
-**Empty**
-**Add**
-**Start**
-**Stop**
+- **Empty**: Clears the game board.
+- **Add**: Adds random live and dead cells to the game board.
+- **Start**: Initiates the game to start evolving generations.
+- **Stop**: Pauses the game.
 
-#### counter
-**counts number of generations**
-
+#### Counter
+- **Generations**: Displays the number of generations evolved.
