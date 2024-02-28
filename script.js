@@ -2,8 +2,8 @@
 
 window.addEventListener("load", start);
 
-const GRID_WIDTH = 30;
-const GRID_HEIGHT = 20;
+const GRID_WIDTH = 40;
+const GRID_HEIGHT = 25;
 
 
 
