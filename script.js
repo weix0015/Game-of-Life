@@ -10,6 +10,8 @@ const GRID_HEIGHT = 20;
 
 function start() {
   console.log("JS running.");
+  createBoard();
+  // createModel();
 }
 
 function countNeighbours(row, col) {
@@ -30,6 +32,33 @@ function countNeighbours(row, col) {
 // }
 
 // ************* VIEW *************
+
+function createBoard() {
+  const board = document.querySelector("#board");
+
+  board.style.setProperty("--GRID_HEIGHT", GRID_HEIGHT);
+  board.style.setProperty("--GRID_WIDTH", GRID_WIDTH);
+
+
+  for (let row= 0; row < GRID_HEIGHT; row++) {
+    for (let col = 0; col < GRID_WIDTH; col++) {
+      const cell = document.createElement("div");
+      cell.classList.add("cell");
+      board.appendChild(cell);
+    }
+  }
+}
+
+// function createModel() {
+//   for (let row = 0; row < GRID_HEIGHT; row++) {
+//     const newRow= [];
+//     for (let col = 0; col < GRID_WIDTH; col++) {
+//       newRow[col] = 0;
+//     }
+//     model[row] = newRow;
+//   }
+// }
+
 // function makeBoardClickable() {
 //   document.querySelector("#board").addEventListener("click", boardClicked);
 // }
