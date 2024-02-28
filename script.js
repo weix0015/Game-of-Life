@@ -5,10 +5,6 @@ window.addEventListener("load", start);
 const GRID_WIDTH = 40;
 const GRID_HEIGHT = 25;
 
-const deadCells= document.querySelectorAll(".cell");
-deadCells.forEach(cell => {
-  cell.dataset.alive = Math.round(Math.random());
-});
 // ************* CONTROLLER *************
 
 function start() {
@@ -18,6 +14,14 @@ function start() {
 }
 
 function fillBoard() {
+  // change data value to 1 or 0
+  const cells = document.querySelectorAll(".cell");
+  cells.forEach(cell => {
+    const dead_alive = cell.dataset.dead_alive = Math.round(Math.random());
+    cell.setAttribute("dead_alive", dead_alive ? "1" : "0");
+  });
+
+  // iterate through the grid
   for (let row = 0; row < GRID_HEIGHT; row++) {
     for (let col = 0; col < GRID_WIDTH; col++) {
       if(Math.random() < 0.15) {
@@ -27,7 +31,6 @@ function fillBoard() {
       }
     }
   }
-  
 }
 
 function changeCell(){
