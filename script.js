@@ -5,6 +5,8 @@ window.addEventListener("load", start);
 const GRID_WIDTH = 40;
 const GRID_HEIGHT = 25;
 let model = [];
+let generations = 0;
+let intervalId = null;
 // ************* CONTROLLER *************
 
 function start() {
@@ -12,13 +14,41 @@ function start() {
   createModel();
   createBoard();
   fillBoardv2();
+}
 
+document.getElementById("start").addEventListener("click", startGame);
+document.getElementById("stop").addEventListener("click", stopGame);
+function startGame() {
+  if(intervalId === null) {
+    intervalId = setInterval(nextGeneration, 200);
+  }
+}
+function stopGame() {
+  if (intervalId !== null) {
+    clearInterval(intervalId);
+    intervalId = null;
+  }
 }
 
 
-
 // ************* VIEW *************
+emptyBtn = document.getElementById("empty");
+addRandomBtn = document.getElementById("random");
 
+emptyBtn.addEventListener("click", emptyBoard);
+addRandomBtn.addEventListener("click", addRandom);
+
+function emptyBoard() {
+  model = model.map(row => row.map(() => 0));
+  stopGame();
+  updateView();
+  generations = 0;
+  document.getElementById("counter").innerText = `generations: ${generations}`;
+}
+
+function addRandom() {
+  fillBoardv2();
+}
 function createBoard() {
   const board = document.querySelector("#board");
 
@@ -84,6 +114,8 @@ function countNeighbours(row, col) {
 }
 
 function nextGeneration() {
+  generations++;
+  document.getElementById("counter").innerText = `generations: ${generations}`;
   const nextGenerationModel = model.map((row, rowIndex) => 
     row.map((cell, colIndex) => {
       const neighbours = countNeighbours(rowIndex, colIndex);

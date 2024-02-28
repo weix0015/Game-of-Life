@@ -1,7 +1,7 @@
 body {
     background-color: #666;
     color: #8b8;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Helvetica', sans-serif;
     margin: 0;
     padding: 0;
     display: grid;
@@ -22,4 +22,34 @@ body {
     aspect-ratio: 1 / 1;
     background-color: #888;
     border: 0.5px outset darkgrey;    
-} 
+}
+#counter{
+    font-size: large;
+    margin: 10px;
+    padding: 10px;
+    color: rgb(255, 238, 1)
+}
+#buttons{
+    display: grid;
+    grid-template-rows: auto;
+}
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+ 
+  .primary-button {
+    background-color: #4CAF50;
+    color: white;
+  }
+  .btn:hover {
+    transform: scale(1.1);
+  }
