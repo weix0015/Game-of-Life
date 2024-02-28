@@ -10,6 +10,7 @@ const GRID_HEIGHT = 25;
 function start() {
   console.log("JS running.");
   createBoard();
+  fillBoard();
   // createModel();
 }
 
@@ -18,19 +19,21 @@ function fillBoard() {
   const cells = document.querySelectorAll(".cell");
   cells.forEach(cell => {
     const dead_alive = cell.dataset.dead_alive = Math.round(Math.random());
-    cell.setAttribute("dead_alive", dead_alive ? "1" : "0");
-  });
-
-  // iterate through the grid
-  for (let row = 0; row < GRID_HEIGHT; row++) {
-    for (let col = 0; col < GRID_WIDTH; col++) {
-      if(Math.random() < 0.15) {
-        writeToCell(row, col, 1); 
-      } else {
-        writeToCell(row, col, 0);
+    cell.setAttribute("dead_alive", dead_alive);
+    if (dead_alive === 1) {
+      cell.style.backgroundColor = "black";
+    }
+    // iterate through the grid
+    for (let row = 0; row < GRID_HEIGHT; row++) {
+      for (let col = 0; col < GRID_WIDTH; col++) {
+        if(Math.random() < 0.15) {
+          dead_alive = 1;
+        } else {
+          dead_alive = 0;
+        }
       }
     }
-  }
+  });
 }
 
 function changeCell(){
