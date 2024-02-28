@@ -38,6 +38,15 @@ addRandomBtn = document.getElementById("random");
 emptyBtn.addEventListener("click", emptyBoard);
 addRandomBtn.addEventListener("click", addRandom);
 
+document.getElementById("speedRange").addEventListener("input", function() {
+  updateSpeed(this.value);
+});
+
+function updateSpeed(newSpeed) {
+  clearInterval(intervalId);
+  intervalId = setInterval(nextGeneration, newSpeed);
+}
+
 function emptyBoard() {
   model = model.map(row => row.map(() => 0));
   stopGame();
