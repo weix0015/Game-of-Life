@@ -7,27 +7,37 @@ const GRID_HEIGHT = 25;
 let model = [];
 let generations = 0;
 let intervalId = null;
+
+let speed = 200;
+
 // ************* CONTROLLER *************
 
 function start() {
   console.log("JS running.");
   createModel();
   createBoard();
-  fillBoardv2();
+  fillBoard();
 }
 
 document.getElementById("start").addEventListener("click", startGame);
 document.getElementById("stop").addEventListener("click", stopGame);
+
 function startGame() {
   if(intervalId === null) {
-    intervalId = setInterval(nextGeneration, 200);
+    updateSpeed(speed);
   }
 }
+
 function stopGame() {
   if (intervalId !== null) {
     clearInterval(intervalId);
     intervalId = null;
   }
+}
+
+function updateSpeed(newSpeed) {
+  clearInterval(intervalId);
+  intervalId = setInterval(nextGeneration, speed);
 }
 
 
@@ -39,13 +49,9 @@ emptyBtn.addEventListener("click", emptyBoard);
 addRandomBtn.addEventListener("click", addRandom);
 
 document.getElementById("speedRange").addEventListener("input", function() {
-  updateSpeed(this.value);
+  speed = parseInt(this.value);
+  updateSpeed(speed);
 });
-
-function updateSpeed(newSpeed) {
-  clearInterval(intervalId);
-  intervalId = setInterval(nextGeneration, newSpeed);
-}
 
 function emptyBoard() {
   model = model.map(row => row.map(() => 0));
@@ -56,7 +62,7 @@ function emptyBoard() {
 }
 
 function addRandom() {
-  fillBoardv2();
+  fillBoard();
 }
 function createBoard() {
   const board = document.querySelector("#board");
@@ -73,7 +79,7 @@ function createBoard() {
   }
 }
 
-function fillBoardv2() {
+function fillBoard() {
   for (let row = 0; row < GRID_HEIGHT; row++) {
     for (let col = 0; col < GRID_WIDTH; col++) {
       let isAlive;
