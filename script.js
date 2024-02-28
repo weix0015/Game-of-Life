@@ -4,14 +4,44 @@ window.addEventListener("load", start);
 
 const GRID_WIDTH = 40;
 const GRID_HEIGHT = 25;
-
+let model = [];
 // ************* CONTROLLER *************
 
 function start() {
   console.log("JS running.");
+  createModel();
   createBoard();
-  fillBoard();
-  // createModel();
+  fillBoardv2();
+
+}
+
+
+
+// ************* VIEW *************
+
+function createBoard() {
+  const board = document.querySelector("#board");
+
+  board.style.setProperty("--GRID_HEIGHT", GRID_HEIGHT);
+  board.style.setProperty("--GRID_WIDTH", GRID_WIDTH);
+
+  for (let row = 0; row < GRID_HEIGHT; row++) {
+    for (let col = 0; col < GRID_WIDTH; col++) {
+      const cell = document.createElement("div");
+      cell.classList.add("cell");
+      board.appendChild(cell);
+    }
+  }
+}
+
+function fillBoardv2() {
+  for (let row = 0; row < GRID_HEIGHT; row++) {
+    for (let col = 0; col < GRID_WIDTH; col++) {
+      const isAlive = Math.random() > 0.15 ? 1 : 0;
+      model[row][col] = isAlive;
+    }
+  }
+  updateView();
 }
 
 function fillBoard() {
@@ -26,7 +56,7 @@ function fillBoard() {
     // iterate through the grid
     for (let row = 0; row < GRID_HEIGHT; row++) {
       for (let col = 0; col < GRID_WIDTH; col++) {
-        if(Math.random() < 0.15) {
+        if (Math.random() < 0.15) {
           dead_alive = 1;
         } else {
           dead_alive = 0;
@@ -36,117 +66,59 @@ function fillBoard() {
   });
 }
 
-function changeCell(){
-  const cell = document.querySelector(".cell");
-  
 
+function updateView() {
+  const cells = document.querySelectorAll(".cell");
+  cells.forEach((cell, index) => {
+    const row = Math.floor(index / GRID_WIDTH);
+    const col = index % GRID_WIDTH;
+    cell.style.backgroundColor = model[row][col] === 1 ? "white" : "black";
+  });
 }
 
-function nextGeneration() {
+// ************* MODEL *************
 
+function createModel() {
+  for (let row = 0; row < GRID_HEIGHT; row++) {
+    const newRow = [];
+    for (let col = 0; col < GRID_WIDTH; col++) {
+      newRow[col] = 0;
+    }
+    model[row] = newRow;
+  }
 }
-
 
 function countNeighbours(row, col) {
   let count = 0;
-  for(let y = -1; y <= 1; y++) {
-    for(let x = -1; x <=1; x++) {
+  for (let y = -1; y <= 1; y++) {
+    for (let x = -1; x <= 1; x++) {
       //avoid counting the cell itself
-      if(x != 0 && y!= 0) {
+      if (x != 0 && y != 0) {
         count += readFromCell(row + y, col + x);
       }
     }
   }
 }
 
-
-
-// ************* VIEW *************
-
-function createBoard() {
-  const board = document.querySelector("#board");
-
-  board.style.setProperty("--GRID_HEIGHT", GRID_HEIGHT);
-  board.style.setProperty("--GRID_WIDTH", GRID_WIDTH);
-
-
-  for (let row= 0; row < GRID_HEIGHT; row++) {
-    for (let col = 0; col < GRID_WIDTH; col++) {
-      const cell = document.createElement("div");
-      cell.classList.add("cell");
-      board.appendChild(cell);
-    }
-  }
+function nextGeneration() {
+  const nextGeneration = model.map(row, rowIndex => row.map((cell, colIndex) => {
+    const neighbours = countNeighbours(rowIndex, colIndex);
+    if (cell === 1 && (neighbours < 2 || neighbours > 3)) return 0;
+    if (cell === 0 && neighbours === 3) return 1;
+    return cell;
+  }));
+  model = nextGeneration;
+  updateView();
 }
 
-// ************* MODEL *************
+
 
 function writeToCell(row, col, value) {
   model[row][col] = value;
 }
 
 function readFromCell(row, col) {
+  if (row < 0 || row >= GRID_HEIGHT || col < 0 || col >= GRID_WIDTH) return 0;
+
   return model[row][col];
 }
-
-// function selectCell(row, col) {
-//   writeToCell(row, col, 1);
-//   displayBoard();
-// }
-
-// const model = [
-//   [0, 0, 0],
-//   [0, 0, 0],
-//   [0, 0, 0],
-// ];
-
-
-
-
-// function createModel() {
-//   for (let row = 0; row < GRID_HEIGHT; row++) {
-//     const newRow= [];
-//     for (let col = 0; col < GRID_WIDTH; col++) {
-//       newRow[col] = 0;
-//     }
-//     model[row] = newRow;
-//   }
-// }
-
-// function makeBoardClickable() {
-//   document.querySelector("#board").addEventListener("click", boardClicked);
-// }
-
-// function boardClicked(event) {
-//   console.log("Board clicked");
-
-//   const cell = event.target;
-
-//   if (cell.classList.contains("cell")) {
-//     const row = cell.dataset.row;
-//     const col = cell.dataset.col;
-
-//     console.log(`Clicked row ${row}, col ${col}`);
-//     selectCell(row, col);
-//   }
-// }
-// function displayBoard() {
-//   for (let row = 0; row < 3; row++) {
-//     for (let col = 0; col < 3; col++) {
-//       const value = readFromCell(row, col);
-//       const cell = document.querySelector(`[data-row="${row}"][data-col="${col}"]`);
-
-//       switch (value) {
-//         case 0:
-//           cell.textContent = "";
-//           break;
-//         case 1:
-//           cell.textContent = "X";
-//           break;
-//         case 2:
-//           cell.textContent = "O";
-//           break;
-//       }
-//     }
-//   }
-// }
