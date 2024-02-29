@@ -39,7 +39,7 @@ function stopGame() {
 function updateSpeed(iterationsPerSecond) {
   if (iterationsPerSecond > 0) {
     // Calculate the time between iterations
-    const intervalTime = (1000 / iterationsPerSecond) * 100;
+    const intervalTime = (1000 / iterationsPerSecond);
     
     clearInterval(intervalId);
     intervalId = setInterval(nextGeneration, intervalTime);
